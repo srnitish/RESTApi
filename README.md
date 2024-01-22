@@ -1,48 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+Create a New Repository on GitHub:
 
-const Countries = () => {
-  const [countries, setCountries] = useState([]);
+Go to GitHub.
+Log in to your account.
+Click on the "+" sign in the upper-right corner and select "New repository."
+Give your repository a name, add a description, and configure other settings.
+Click "Create repository."
+Initialize a Git Repository Locally:
 
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const response = await axios.get('https://restcountries.com/v3.1/all');
-        const data = response.data;
-        setCountries(data);
-      } catch (error) {
-        console.error('Error fetching countries:', error);
-      }
-    };
+Open a terminal on your local machine.
 
-    fetchCountries();
-  }, []);
+Navigate to the folder containing your project files.
 
-  return (
-    <div>
-      <h1>Country Name & Currency </h1>
-      <ul>
-        {countries.map((country, index) => (
-          <li key={index}>
-            <p>Country: {country.name.common}</p>
-            
-            {country.currencies ? (
-              <ul>
-                {Object.keys(country.currencies).map((currencyCode, index) => (
-                  <li key={index}>
-                    Name: {country.currencies[currencyCode].name} | Currency: {currencyCode} |  Symbol: {country.currencies[currencyCode].symbol}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No currency information available</p>
-            )
-            }
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+Run the following commands:
 
-export default Countries;
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/your-username/your-repository.git
+git branch -M main
+git push -u origin main
+
+Push Your Code to GitHub:
+
+git push -u origin main
+This will upload all your files and folders to the GitHub repository.
