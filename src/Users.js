@@ -6,13 +6,12 @@ function Users() {
     const [deletedUsers, setdeletedUsers] = useState([]);
 
     useEffect(()=>{
-        const responseUser = async () =>{
+        const responseUser = async () => {
             try{
                 const response = await axios.get('https://jsonplaceholder.typicode.com/users');
                 const data = response.data;
                 setUsers(data);
                 console.log(data);
-
             } catch(error){
                 console.log("Error Message:" , error);
             }
@@ -27,9 +26,9 @@ function Users() {
     }
 
     return (
-        <>
+    
         <div>
-            {users.map(user => 
+            {users.map((user) => 
                 <div key={user.id}>
                     <strong>Name:</strong> {user.name}<br/>
                     <strong>User Name:</strong> {user.username}<br/>
@@ -41,7 +40,6 @@ function Users() {
                 
                 )} 
         </div>
-        </>
     );
 }
 

@@ -27,10 +27,9 @@ const Countries = () => {
       <h1>Country Name & Currency </h1>
       <ul>
         {countries.map((country, index) => (
-          
           <li className='main' key={index}>
-            <p>Country: {country.name.common}</p>       
-                 
+            <p>Country: {country.name.common}</p> 
+            
             {country.currencies ? (
               <ul>
                 {Object.keys(country.currencies).map((currency, index) => (

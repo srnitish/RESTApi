@@ -1,5 +1,5 @@
 {
-    "homepage": "https://srnitish.github.com/countrylistApi",
+    "homepage": "https://srnitish.github.com/RESTApi",
     "name": "country-test",
     "version": "0.1.0",
     "private": true,
@@ -9,15 +9,18 @@
         "@testing-library/user-event": "^13.5.0",
         "axios": "^1.6.2",
         "babel": "^6.23.0",
+        "bootstrap": "^5.3.3",
         "gh-pages": "^6.1.0",
+        "nodemon": "^3.0.3",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-router-dom": "^6.22.3",
         "react-scripts": "5.0.1",
         "web-vitals": "^2.1.4"
     },
     "scripts": {
         "predeploy": "npm run build",
-        "deploy": "gh-pages -d build -r https://github.com/srnitish/countrylistApi",
+        "deploy": "gh-pages -d build -r https://github.com/srnitish/RESTApi",
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
@@ -40,5 +43,8 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "devDependencies": {
+        "@cfaester/enzyme-adapter-react-18": "^0.7.1"
     }
 }

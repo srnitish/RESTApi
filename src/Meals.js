@@ -3,59 +3,75 @@ import axios from 'axios';
 
 const myPara = {
   display: "inline-flex",
-}
+};
 
 const Meals = () => {
-  const [Meals, setMeals] = useState([]);
-  const [deletedItems, setDeletedItems] = useState([]);
+  const [meals, setMeals] = useState([]);
+  const [characters, setCharacters] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMeals = async () => {
+      const cancelToken = axios.CancelToken.source();
+      const apiList = [
+        'https://www.themealdb.com/api/json/v1/1/filter.php?c=Vegetarian',
+        'https://rickandmortyapi.com/api/character'
+    ]
       try {
         //**** Using Axios ****//
-        // const response = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?c=Vegetarian');
-        // const data = response.data.meals;
-        // console.log(data);
-        // setMeals(data);
+        const [getMealResponse, getCharacterResponse] = await axios.all(apiList.map((url) => axios.get(url, { cancelToken: cancelToken.token })))
+        
+        const mealData = getMealResponse.data.meals;
+        setMeals(mealData);
+        
+        const characterData = getCharacterResponse.data.results;
+        setCharacters(characterData);
 
-        //**** Using Fetch ****//
-        const response = await fetch('https://www.themealdb.com/api/json/v1/1/filter.php?c=Vegetarian');
-        const data = await response.json();
-        console.log(data);
-        setMeals(data.meals);
+        console.log("mealData", mealData);
+        console.log("characterData", characterData);
+
       } catch (error) {
-        console.error('Error fetching Meals:', error);
+        if (axios.isCancel(error)) {
+          console.log("Request canceled", error.message);
+        } else {
+          console.error('Error fetching Meals:', error);
+        }
+      } finally {
+        setLoading(false);
       }
+
+      // Cleanup function to cancel the request if the component unmounts
+      return () => cancelToken.cancel("Component unmounted");
     };
+
     fetchMeals();
   }, []);
 
-  const handleDelete = (itemId) => {
-    // Simulate deletion locally by moving the item to the deletedItems array
-    const deletedItem = Meals.find((meal) => meal.idMeal === itemId);
-    setDeletedItems([...deletedItems, deletedItem]);
-    setMeals(Meals.filter((meal) => meal.idMeal !== itemId));
-  };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-    <h2>Meal List</h2>
-    <ul>
-      {Meals.map((meal) => (
-        <li key={meal.idMeal}>
-          <strong>{meal.strMeal}</strong><br/>
-          <img src={meal.strMealThumb} alt={meal.strMeal} width={100}/>
-          <div>
-        <button onClick={() => handleDelete(meal.idMeal)}>Delete</button>
+      <h2>Meal List</h2>
+      <ul>
+        {meals.map((meal) => 
+          <li key={meal.idMeal}>
+            <strong>{meal.strMeal}</strong><br/>
+            <img src={meal.strMealThumb} alt={meal.strMeal} width={100}/>
+          </li>    
+        )}
+      </ul>
 
-     
-    </div>
+      <h2>Character List</h2>
+      <ul>
+        {characters.map((character) => (
+          <li key={character.id}>
+            <strong>{character.name}</strong>
           </li>
-
-          
-      ))}
-    </ul>
-  </div>
+        ))}
+      </ul>
+    </div>
   );
 };
 
